@@ -13,10 +13,10 @@ let intervalId;
 let attempt = 0;
 
 const questions = [
-    "Tui thích bà. Làm người yêu tui nhe?",
-    "Tui nghiêm túc đó… cho tui cơ hội nha?",
-    "Lần này là thật luôn đó",
-    "Pleaseee…"
+    "",
+    "",
+    "",
+    "…"
 ];
 
 function startCountdown(seconds) {
