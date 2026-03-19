@@ -13,33 +13,41 @@ let intervalId;
 let attempt = 0;
 
 const questions = [
-    "",
-    "",
-    "",
+    "ối bấm nhầm hay sao á",
+    "nhầm ời",
+    "chắc chắn nhầm",
     "…"
 ];
 
 function startCountdown(seconds) {
-    clearInterval(intervalId);
-    let timeLeft = seconds;
+    cancelAnimationFrame(intervalId);
 
-    countText.textContent = timeLeft;
+    let startTime = null;
+
+    countText.textContent = seconds;
     clockBox.classList.add("active");
     questionBox.classList.remove("active");
     successBox.classList.remove("active");
 
-    intervalId = setInterval(() => {
-        timeLeft--;
-        countText.textContent = timeLeft;
+    function animate(timestamp) {
+        if (!startTime) startTime = timestamp;
+
+        const elapsed = (timestamp - startTime) / 1000;
+        const timeLeft = Math.max(seconds - elapsed, 0);
+
+        countText.textContent = Math.ceil(timeLeft);
 
         const angle = (timeLeft / seconds) * 360 - 90;
         secondHand.style.transform = `rotate(${angle}deg)`;
 
-        if (timeLeft <= 0) {
-            clearInterval(intervalId);
+        if (timeLeft > 0) {
+            intervalId = requestAnimationFrame(animate);
+        } else {
             showQuestion();
         }
-    }, 1000);
+    }
+
+    intervalId = requestAnimationFrame(animate);
 }
 
 function showQuestion() {
